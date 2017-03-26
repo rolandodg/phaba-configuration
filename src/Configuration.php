@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Phaba\Migrations\Core\Configuration;
+namespace Phaba\Configuration;
 
-interface ConfigurationReader
+
+interface Configuration
 {
     public function __construct(string $configurationPath);
     public function getElement(string $name);
