@@ -1,0 +1,8 @@
+common:
+    text: 2ML2010
+
+teenage_mutant_ninja_turtles:
+    place: Manhattan Sewer
+
+file_generator:
+    migration_files_path: tests/MigrationsVersionsFakeFiles

@@ -1,0 +1,5 @@
+testing:
+    text: 2ML2010Test
+
+file_generator:
+    migration_files_path: tests/MigrationsVersionsFakeFiles
