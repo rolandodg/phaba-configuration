@@ -1,4 +1,15 @@
 {
+    "name": "phaba/configuration",
+    "description": "Library for managing configuration files",
+    "keywords": ["configuration", "management", "php"],
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Jesus Hernando Sancha",
+            "email": "jesushs80@gmail.com",
+            "role": "developer"
+        }
+    ],
     "require": {
         "symfony/yaml": "^3.2"
     },
