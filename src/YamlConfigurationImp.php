@@ -36,7 +36,7 @@ class YamlConfigurationImp implements Configuration
     public function getElement(string $name)
     {
         if (!array_key_exists($name, $this->currentConfig)) {
-            throw new InvalidElementException("Invalid $name Element in common configuration");
+            throw new InvalidElementException("Invalid $name Element in configuration");
         }
 
         return $this->currentConfig[$name];
