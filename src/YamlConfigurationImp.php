@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Phaba\Configuration;
 
 use Phaba\Configuration\Exception\InvalidElementException;
+use Phaba\Configuration\Exception\NotExistingFileException;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlConfigurationImp implements Configuration
@@ -50,8 +51,13 @@ class YamlConfigurationImp implements Configuration
         $importedData = [];
         if (array_key_exists('import', $configData)) {
             foreach ($configData['import'] as $index => $file) {
-                $resourceData = Yaml::parse(file_get_contents($this->configPath.'/'.$file['resource']));
-                $importedData = array_merge($importedData, $this->getImportedData($resourceData), $resourceData);
+                if (file_exists($this->configPath.'/'.$file['resource'])) {
+                    $resourceData = Yaml::parse(file_get_contents($this->configPath.'/'.$file['resource']));
+                    $importedData = array_merge($importedData, $this->getImportedData($resourceData), $resourceData);
+                } else {
+                    throw new NotExistingFileException('File '.$file['resource'].' for importing is not existing');
+                }
+
             }
         }
         return $importedData;
