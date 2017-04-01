@@ -1,3 +1,6 @@
+import:
+    - {resource: file_for_importing_from_env.yaml}
+
 testing:
     text: 2ML2010Test
 

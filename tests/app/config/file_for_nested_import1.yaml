@@ -1,0 +1,5 @@
+import:
+    - {resource: file_for_nested_import2.yaml}
+    - {resource: file_for_nested_import3.yaml}
+
+island1: Monkey
