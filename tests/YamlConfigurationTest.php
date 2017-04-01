@@ -7,6 +7,8 @@ namespace Phaba\Configuration\Tests;
 use Phaba\Configuration\Exception\InvalidElementException;
 use Phaba\Configuration\YamlConfigurationImp;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Phaba\Configuration\Exception\NotExistingFileException;
 
 class YamlConfigurationTest extends TestCase
 {
@@ -57,5 +59,17 @@ class YamlConfigurationTest extends TestCase
         $config = new YamlConfigurationImp('tests/app/config2');
         $this->assertEquals('Guybrush Threepwood', $config->getElement('common')['user']);
 
+    }
+
+    public function testCanThrowExceptionWhenImportedFileIsNotExisting(): void
+    {
+        $this->expectException(NotExistingFileException::class);
+        $config = new YamlConfigurationImp('tests/app/config3');
+    }
+
+    public function testCanThrowExceptionMessageWhenImportedFileIsNotExisting(): void
+    {
+        $this->expectExceptionMessage('File not_existing_file.yaml for importing is not existing');
+        $config = new YamlConfigurationImp('tests/app/config3');
     }
 }

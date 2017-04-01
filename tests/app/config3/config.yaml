@@ -1,0 +1,5 @@
+import:
+    - {resource: not_existing_file.yaml}
+
+common:
+    text: 2ML2010
