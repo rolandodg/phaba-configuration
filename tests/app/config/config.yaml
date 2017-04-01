@@ -1,3 +1,6 @@
+import:
+    - {resource: file_for_importing_from_common.yaml}
+    - {resource: file_for_nested_import1.yaml}
 common:
     text: 2ML2010
 

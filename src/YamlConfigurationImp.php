@@ -25,12 +25,36 @@ class YamlConfigurationImp implements Configuration
         $this->currentConfig = $this->getCurrentConfigurationArray();
     }
 
-    private function getCurrentConfigurationArray()
+    private function getCurrentConfigurationArray(): array
     {
-        $commonConfig = Yaml::parse(file_get_contents($this->configPath.'/config.yaml'));
-        $environmentConfig = Yaml::parse(file_get_contents($this->configPath.'/config_'.ENVIRONMENT.'.yaml'));
+        $commonConfig = $this->getConfigurationData($this->configPath.'/config.yaml');
+        $environmentConfig = $this->getConfigurationData($this->configPath.'/config_'.ENVIRONMENT.'.yaml');
 
         return array_merge($commonConfig, $environmentConfig);
+    }
+
+    private function getConfigurationData(string $filePath): array
+    {
+        $configData = [];
+        if (file_exists($filePath)) {
+            $configData = Yaml::parse(file_get_contents($filePath));
+            $configData = array_merge($configData, $this->getImportedData($configData));
+            unset($configData['import']);
+        }
+
+        return $configData;
+    }
+
+    private function getImportedData(array $configData): array
+    {
+        $importedData = [];
+        if (array_key_exists('import', $configData)) {
+            foreach ($configData['import'] as $index => $file) {
+                $resourceData = Yaml::parse(file_get_contents($this->configPath.'/'.$file['resource']));
+                $importedData = array_merge($importedData, $this->getImportedData($resourceData), $resourceData);
+            }
+        }
+        return $importedData;
     }
 
     public function getElement(string $name)

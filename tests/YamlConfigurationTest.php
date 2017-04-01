@@ -10,29 +10,52 @@ use PHPUnit\Framework\TestCase;
 
 class YamlConfigurationTest extends TestCase
 {
-    /**
-     * @var YamlConfigurationImp
-     */
-    private $config;
-
-    public function setUp()
-    {
-        $this->config = new YamlConfigurationImp('tests/app/config');
-    }
-
     public function testCanGetCommonConfiguration(): void
     {
-        $this->assertEquals('2ML2010', $this->config->getElement('common')['text']);
+        $config = new YamlConfigurationImp('tests/app/config');
+        $this->assertEquals('2ML2010', $config->getElement('common')['text']);
     }
 
     public function testCanGetTestConfiguration(): void
     {
-        $this->assertEquals('2ML2010Test', $this->config->getElement('testing')['text']);
+        $config = new YamlConfigurationImp('tests/app/config');
+        $this->assertEquals('2ML2010Test', $config->getElement('testing')['text']);
     }
 
     public function testThrowExceptionWhenElementDoesNotExist(): void
     {
+        $config = new YamlConfigurationImp('tests/app/config');
         $this->expectException(InvalidElementException::class);
-        $this->config->getElement('FakeElement');
+        $config->getElement('FakeElement');
+    }
+
+    public function testCanImportFileFromCommonConfiguration(): void
+    {
+        $config = new YamlConfigurationImp('tests/app/config');
+        $this->assertEquals('AmigaCommodore500', $config->getElement('common_imported_data')['computer']);
+    }
+
+    public function testCanImportFileFromEnvironmentConfiguration(): void
+    {
+        $config = new YamlConfigurationImp('tests/app/config');
+        $this->assertEquals('Spectrum48k', $config->getElement('env_imported_data')['computer']);
+    }
+
+    public function testCanImportNestedFiles(): void
+    {
+        $config = new YamlConfigurationImp('tests/app/config');
+        $this->assertEquals('Monkey', $config->getElement('island1'));
+        $this->assertEquals('Mêlée', $config->getElement('island2'));
+        $this->assertEquals('Booty', $config->getElement('island3'));
+        $this->assertEquals('Scabb', $config->getElement('island4'));
+        $this->assertEquals('Phatt', $config->getElement('island5'));
+        $this->assertEquals('Dinky', $config->getElement('island6'));
+    }
+
+    public function testCanGetCommonConfigWhenEnvironmentConfigIsNotExisting(): void
+    {
+        $config = new YamlConfigurationImp('tests/app/config2');
+        $this->assertEquals('Guybrush Threepwood', $config->getElement('common')['user']);
+
     }
 }

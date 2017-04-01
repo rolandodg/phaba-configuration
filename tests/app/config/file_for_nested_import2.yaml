@@ -1,0 +1,4 @@
+import:
+    - {resource: file_for_nested_import4.yaml}
+
+island2: Mêlée
