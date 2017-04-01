@@ -7,7 +7,6 @@ namespace Phaba\Configuration\Tests;
 use Phaba\Configuration\Exception\InvalidElementException;
 use Phaba\Configuration\YamlConfigurationImp;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Phaba\Configuration\Exception\NotExistingFileException;
 
 class YamlConfigurationTest extends TestCase
