@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Phaba\Configuration\Tests;
 
 use Phaba\Configuration\Exception\InvalidElementException;
+use Phaba\Configuration\Exception\NotExistingFileException;
+use Phaba\Configuration\Exception\NotFoundParameterException;
 use Phaba\Configuration\YamlConfigurationImp;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Phaba\Configuration\Exception\NotExistingFileException;
 
 class YamlConfigurationTest extends TestCase
 {
@@ -71,5 +71,25 @@ class YamlConfigurationTest extends TestCase
     {
         $this->expectExceptionMessage('File not_existing_file.yaml for importing is not existing');
         $config = new YamlConfigurationImp('tests/app/config3');
+    }
+
+    public function testCanUseParameterValues(): void
+    {
+        $config = new YamlConfigurationImp('tests/app/config_with_params');
+        $this->assertEquals('SCRUMM1', $config->getElement('simple'));
+        $this->assertEquals('SCRUMM2', $config->getElement('nested')['value']);
+        $this->assertEquals('SCRUMM3', $config->getElement('more_nested')['data']['value']);
+    }
+
+    public function testCanThrowExceptionWhenParameterIsNotExisting(): void
+    {
+        $this->expectException(NotFoundParameterException::class);
+        $config = new YamlConfigurationImp('tests/app/config_params_exception');
+    }
+
+    public function testCanThrowExceptionMessageWhenParameterIsNotExisting(): void
+    {
+        $this->expectExceptionMessage("Not Found parameter 'value'.");
+        $config = new YamlConfigurationImp('tests/app/config_params_exception');
     }
 }

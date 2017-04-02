@@ -6,6 +6,7 @@ namespace Phaba\Configuration;
 
 use Phaba\Configuration\Exception\InvalidElementException;
 use Phaba\Configuration\Exception\NotExistingFileException;
+use Phaba\Configuration\Exception\NotFoundParameterException;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlConfigurationImp implements Configuration
@@ -30,8 +31,11 @@ class YamlConfigurationImp implements Configuration
     {
         $commonConfig = $this->getConfigurationData($this->configPath.'/config.yaml');
         $environmentConfig = $this->getConfigurationData($this->configPath.'/config_'.ENVIRONMENT.'.yaml');
+        $currentConfiguration = array_merge($commonConfig, $environmentConfig);
 
-        return array_merge($commonConfig, $environmentConfig);
+        $this->replaceValuesWithParameters($currentConfiguration);
+
+        return $currentConfiguration;
     }
 
     private function getConfigurationData(string $filePath): array
@@ -61,6 +65,24 @@ class YamlConfigurationImp implements Configuration
             }
         }
         return $importedData;
+    }
+
+    private function replaceValuesWithParameters(array &$replacingData, array $configData = null)
+    {
+        $configData = (null === $configData)? $replacingData:$configData;
+        foreach ($replacingData as $element => &$data) {
+            if (is_array($data)) {
+                $this->replaceValuesWithParameters($data, $configData);
+            } elseif (strpos($data, '%') == 0 && strrpos($data, '%') == strlen($data) - 1) {
+                $parameter = substr($data, 1, strlen($data)-2);
+                if (!array_key_exists('parameters', $configData)
+                    || !array_key_exists($parameter, $configData['parameters'])) {
+                    throw new NotFoundParameterException("Not Found parameter '$parameter'.");
+                } else {
+                    $replacingData[$element] = $configData['parameters'][$parameter];
+                }
+            }
+        }
     }
 
     public function getElement(string $name)

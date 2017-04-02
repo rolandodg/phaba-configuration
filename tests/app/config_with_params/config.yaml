@@ -1,0 +1,11 @@
+import:
+    - {resource: parameters.yaml}
+
+simple: "%simple%"
+
+nested:
+    value: "%nested%"
+
+more_nested:
+    data:
+        value: "%more_nested%"
