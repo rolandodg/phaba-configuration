@@ -90,8 +90,16 @@ class YamlConfigurationImp implements Configuration
         return $importedData;
     }
 
+    /**
+     * Replace configuration element value with its corresponding parameter value
+     *
+     * @param array $replacingData Configuration data for being replaced
+     * @param array|null $configData Entire configuration data. This data must contain parameters data=>value.
+     * @throws NotFoundParameterException
+     */
     private function replaceValuesWithParameters(array &$replacingData, array $configData = null)
     {
+        //TODO: Refactor for doing function more readable
         $configData = (null === $configData)? $replacingData:$configData;
         foreach ($replacingData as $element => &$data) {
             if (is_array($data)) {
