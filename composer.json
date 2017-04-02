@@ -2,6 +2,7 @@
     "name": "phaba/phaba-configuration",
     "description": "Library for managing configuration files",
     "keywords": ["configuration", "management", "php"],
+    "homepage": "https://github.com/rolandodg/phaba-configuration",
     "license": "GPL-3.0",
     "authors": [
         {
