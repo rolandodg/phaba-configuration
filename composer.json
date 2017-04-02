@@ -1,5 +1,5 @@
 {
-    "name": "phaba/configuration",
+    "name": "phaba/phaba-configuration",
     "description": "Library for managing configuration files",
     "keywords": ["configuration", "management", "php"],
     "license": "GPL-3.0",
