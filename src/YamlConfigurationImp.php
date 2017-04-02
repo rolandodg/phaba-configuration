@@ -9,6 +9,11 @@ use Phaba\Configuration\Exception\NotExistingFileException;
 use Phaba\Configuration\Exception\NotFoundParameterException;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Configuration reader from .yaml configuration file.
+ *
+ * @package Phaba\Configuration
+ */
 class YamlConfigurationImp implements Configuration
 {
     /**
@@ -27,6 +32,11 @@ class YamlConfigurationImp implements Configuration
         $this->currentConfig = $this->getCurrentConfigurationArray();
     }
 
+    /**
+     * Get current entire configuration data (common & environment configuration data).
+     *
+     * @return array
+     */
     private function getCurrentConfigurationArray(): array
     {
         $commonConfig = $this->getConfigurationData($this->configPath.'/config.yaml');
@@ -38,6 +48,12 @@ class YamlConfigurationImp implements Configuration
         return $currentConfiguration;
     }
 
+    /**
+     * Get data from an specified configuration file.
+     *
+     * @param string $filePath Specified configuration file path
+     * @return array Specified configuration file data
+     */
     private function getConfigurationData(string $filePath): array
     {
         $configData = [];
@@ -50,6 +66,13 @@ class YamlConfigurationImp implements Configuration
         return $configData;
     }
 
+    /**
+     * Get imported data for an specified configuration data.
+     *
+     * @param array $configData Configuration data which imported data will be gotten
+     * @return array Imported configuration data
+     * @throws NotExistingFileException
+     */
     private function getImportedData(array $configData): array
     {
         $importedData = [];
@@ -85,6 +108,11 @@ class YamlConfigurationImp implements Configuration
         }
     }
 
+    /**
+     * Getting value of an specified configuration element.
+     *
+     * @throws InvalidElementException
+     */
     public function getElement(string $name)
     {
         if (!array_key_exists($name, $this->currentConfig)) {
