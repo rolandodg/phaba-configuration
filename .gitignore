@@ -47,3 +47,4 @@ fabric.properties
 
 /vendor/
 /tests/coverage/
+/docs/
