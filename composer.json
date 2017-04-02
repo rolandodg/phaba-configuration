@@ -1,5 +1,5 @@
 {
-    "name": "phaba/configuration",
+    "name": "phaba/phaba-configuration",
     "description": "Library for managing configuration files",
     "keywords": ["configuration", "management", "php"],
     "license": "GPL-3.0",
@@ -16,7 +16,8 @@
 
     "require-dev": {
         "phpunit/phpunit": "^6.0",
-        "mikey179/vfsStream": "~1"
+        "mikey179/vfsStream": "~1",
+        "phpdocumentor/phpdocumentor": "2.*"
     },
 
     "autoload": {
