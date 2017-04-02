@@ -1,0 +1,5 @@
+parameters:
+    user: Guybrush Threepwood
+    simple: SCRUMM1
+    nested: SCRUMM2
+    more_nested: SCRUMM3
