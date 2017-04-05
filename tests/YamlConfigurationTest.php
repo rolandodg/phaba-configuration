@@ -81,6 +81,12 @@ class YamlConfigurationTest extends TestCase
         $this->assertEquals('SCRUMM3', $config->getElement('more_nested')['data']['value']);
     }
 
+    public function testCanSearchInIntegerFieldValueForReplacingWithParameter(): void
+    {
+        $config = new YamlConfigurationImp('tests/app/config_with_integer_values');
+        $this->assertEquals('Guybrush', $config->getElement('user'));
+    }
+
     public function testCanThrowExceptionWhenParameterIsNotExisting(): void
     {
         $this->expectException(NotFoundParameterException::class);

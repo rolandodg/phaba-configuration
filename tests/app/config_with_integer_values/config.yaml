@@ -1,0 +1,5 @@
+import:
+    - {resource: parameters.yaml}
+
+serial: 123456
+user: "%username%"

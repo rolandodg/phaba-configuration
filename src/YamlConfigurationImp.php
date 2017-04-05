@@ -104,7 +104,7 @@ class YamlConfigurationImp implements Configuration
         foreach ($replacingData as $element => &$data) {
             if (is_array($data)) {
                 $this->replaceValuesWithParameters($data, $configData);
-            } elseif (strpos($data, '%') == 0 && strrpos($data, '%') == strlen($data) - 1) {
+            } elseif (strpos(strval($data), '%') == 0 && strrpos(strval($data), '%') == strlen(strval($data)) - 1) {
                 $parameter = substr($data, 1, strlen($data)-2);
                 if (!array_key_exists('parameters', $configData)
                     || !array_key_exists($parameter, $configData['parameters'])) {
