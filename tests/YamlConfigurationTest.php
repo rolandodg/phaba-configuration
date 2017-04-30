@@ -24,6 +24,14 @@ class YamlConfigurationTest extends TestCase
         $this->assertEquals('2ML2010Test', $config->getElement('testing')['text']);
     }
 
+    public function testCanGetConfigurationWithoutSpecifiedEnvironment(): void
+    {
+        unset($GLOBALS['env']);
+        $config = new YamlConfigurationImp('tests/app/config');
+        $GLOBALS['env'] = 'test';
+        $this->assertEquals('2ML2010', $config->getElement('common')['text']);
+    }
+
     public function testThrowExceptionWhenElementDoesNotExist(): void
     {
         $config = new YamlConfigurationImp('tests/app/config');

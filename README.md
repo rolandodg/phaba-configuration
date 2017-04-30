@@ -47,17 +47,17 @@ Phaba-Configuration allows you to use an extra configuration file for the curren
 
 For that the below is neccesary:
 
-1. Define ENVIRONMENT constant.
+1. Define 'env' global variable.
 
-This constant will determine the current environment. For test environment a good place for define ENVIRONMENT constant should be the test bootstrap file
+This variable will determine the current environment. For test environment a good place for define $env variable should be the test bootstrap file
 
 \# tests/bootstrap.php
 
-`define('ENVIRONMENT', 'test');`
+`$env = 'test'`
 
 2. Created corresponding .yaml configuration file.
 
-For example config_test.yaml is ENVIRONMENT constant value is 'test'. This configuration file has to be in the same folder than config.yaml file.
+For example config_test.yaml is $env variable value is 'test'. This configuration file has to be in the same folder than config.yaml file.
 
 We can use test configuration file for storing test database connection data, for example.
 
