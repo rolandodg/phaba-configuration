@@ -40,7 +40,10 @@ class YamlConfigurationImp implements Configuration
     private function getCurrentConfigurationArray(): array
     {
         $commonConfig = $this->getConfigurationData($this->configPath.'/config.yaml');
-        $environmentConfig = $this->getConfigurationData($this->configPath.'/config_'.ENVIRONMENT.'.yaml');
+        $environmentConfig = [];
+        if (isset($GLOBALS['env'])) {
+            $environmentConfig = $this->getConfigurationData($this->configPath.'/config_'.$GLOBALS['env'].'.yaml');
+        }
         $currentConfiguration = array_merge($commonConfig, $environmentConfig);
 
         $this->replaceValuesWithParameters($currentConfiguration);
