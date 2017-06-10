@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phaba\Configuration;
 
 use Phaba\Configuration\Exception\InvalidElementException;
-use Phaba\Configuration\Exception\NotExistingFileException;
+use Phaba\Configuration\Exception\NotFoundFileException;
 use Phaba\Configuration\Exception\NotFoundParameterException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -74,7 +74,7 @@ class YamlConfigurationReaderImp implements ConfigurationReader
      *
      * @param array $configData Configuration data which imported data will be gotten
      * @return array Imported configuration data
-     * @throws NotExistingFileException
+     * @throws NotFoundFileException
      */
     private function getImportedData(array $configData): array
     {
@@ -85,7 +85,7 @@ class YamlConfigurationReaderImp implements ConfigurationReader
                     $resourceData = Yaml::parse(file_get_contents($this->configPath.'/'.$file['resource']));
                     $importedData = array_merge($importedData, $this->getImportedData($resourceData), $resourceData);
                 } else {
-                    throw new NotExistingFileException('File '.$file['resource'].' for importing is not existing');
+                    throw new NotFoundFileException('File '.$file['resource'].' for importing is not existing');
                 }
 
             }

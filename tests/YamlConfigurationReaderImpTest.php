@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phaba\Configuration\Tests;
 
 use Phaba\Configuration\Exception\InvalidElementException;
-use Phaba\Configuration\Exception\NotExistingFileException;
+use Phaba\Configuration\Exception\NotFoundFileException;
 use Phaba\Configuration\Exception\NotFoundParameterException;
 use Phaba\Configuration\YamlConfigurationReaderImp;
 use PHPUnit\Framework\TestCase;
@@ -71,7 +71,7 @@ class YamlConfigurationReaderImpTest extends TestCase
 
     public function testCanThrowExceptionWhenImportedFileIsNotExisting(): void
     {
-        $this->expectException(NotExistingFileException::class);
+        $this->expectException(NotFoundFileException::class);
         $config = new YamlConfigurationReaderImp('tests/app/config3');
     }
 
