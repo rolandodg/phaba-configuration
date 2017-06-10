@@ -13,7 +13,7 @@ namespace Phaba\Configuration;
  *
  * @package Phaba\Configuration
  */
-interface Configuration
+interface ConfigurationReader
 {
     /**
      * Construct configuration reader from an specified configuration folder path.

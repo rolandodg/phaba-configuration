@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @package Phaba\Configuration
  */
-class YamlConfigurationImp implements Configuration
+class YamlConfigurationReaderImp implements ConfigurationReader
 {
     /**
      * @var array
