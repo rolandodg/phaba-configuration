@@ -14,96 +14,109 @@ class YamlConfigurationReaderImpTest extends TestCase
 {
     public function testCanGetCommonConfiguration(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config');
         $this->assertEquals('2ML2010', $config->getElement('common')['text']);
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanGetTestConfiguration(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config');
         $this->assertEquals('2ML2010Test', $config->getElement('testing')['text']);
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanGetConfigurationWithoutSpecifiedEnvironment(): void
     {
         unset($GLOBALS['env']);
-        $config = new YamlConfigurationReaderImp('tests/app/config');
-        $GLOBALS['env'] = 'test';
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config');
         $this->assertEquals('2ML2010', $config->getElement('common')['text']);
+        $GLOBALS['env'] = 'test';
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testThrowExceptionWhenElementDoesNotExist(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config');
         $this->expectException(InvalidElementException::class);
         $config->getElement('FakeElement');
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanImportFileFromCommonConfiguration(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config');
         $this->assertEquals('AmigaCommodore500', $config->getElement('common_imported_data')['computer']);
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanImportFileFromEnvironmentConfiguration(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config');
         $this->assertEquals('Spectrum48k', $config->getElement('env_imported_data')['computer']);
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanImportNestedFiles(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config');
         $this->assertEquals('Monkey', $config->getElement('island1'));
         $this->assertEquals('Mêlée', $config->getElement('island2'));
         $this->assertEquals('Booty', $config->getElement('island3'));
         $this->assertEquals('Scabb', $config->getElement('island4'));
         $this->assertEquals('Phatt', $config->getElement('island5'));
         $this->assertEquals('Dinky', $config->getElement('island6'));
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanGetCommonConfigWhenEnvironmentConfigIsNotExisting(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config2');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config2');
         $this->assertEquals('Guybrush Threepwood', $config->getElement('common')['user']);
-
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanThrowExceptionWhenImportedFileIsNotExisting(): void
     {
         $this->expectException(NotFoundFileException::class);
-        $config = new YamlConfigurationReaderImp('tests/app/config3');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config3');
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanThrowExceptionMessageWhenImportedFileIsNotExisting(): void
     {
         $this->expectExceptionMessage('File not_existing_file.yaml for importing is not existing');
-        $config = new YamlConfigurationReaderImp('tests/app/config3');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config3');
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanUseParameterValues(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config_with_params');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config_with_params');
         $this->assertEquals('SCRUMM1', $config->getElement('simple'));
         $this->assertEquals('SCRUMM2', $config->getElement('nested')['value']);
         $this->assertEquals('SCRUMM3', $config->getElement('more_nested')['data']['value']);
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanSearchInIntegerFieldValueForReplacingWithParameter(): void
     {
-        $config = new YamlConfigurationReaderImp('tests/app/config_with_integer_values');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config_with_integer_values');
         $this->assertEquals('Guybrush', $config->getElement('user'));
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanThrowExceptionWhenParameterIsNotExisting(): void
     {
         $this->expectException(NotFoundParameterException::class);
-        $config = new YamlConfigurationReaderImp('tests/app/config_params_exception');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config_params_exception');
+        YamlConfigurationReaderImp::reset();
     }
 
     public function testCanThrowExceptionMessageWhenParameterIsNotExisting(): void
     {
         $this->expectExceptionMessage("Not Found parameter 'value'.");
-        $config = new YamlConfigurationReaderImp('tests/app/config_params_exception');
+        $config = YamlConfigurationReaderImp::getInstance('tests/app/config_params_exception');
+        YamlConfigurationReaderImp::reset();
     }
 }

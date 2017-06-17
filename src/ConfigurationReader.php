@@ -8,20 +8,13 @@ namespace Phaba\Configuration;
  * Interface for implementing configuration readers from distinct file types.
  *
  * For example, for implement a reader for reading configuration data from .txt file
- * we can create TextPlainConfigurationImp concrete class and implementing constructor and function for getting
+ * we can create TextPlainConfigurationImp concrete class and implementing function for getting
  * an specified element value
  *
  * @package Phaba\Configuration
  */
 interface ConfigurationReader
 {
-    /**
-     * Construct configuration reader from an specified configuration folder path.
-     *
-     * @param string $configurationPath Entire path of configuration files folder
-     */
-    public function __construct(string $configurationPath);
-
     /**
      * Get value of wanted configuration element
      *

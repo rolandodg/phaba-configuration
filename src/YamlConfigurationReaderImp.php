@@ -17,19 +17,33 @@ use Symfony\Component\Yaml\Yaml;
 class YamlConfigurationReaderImp implements ConfigurationReader
 {
     /**
+     * @var string
+     */
+    private $configPath;
+
+    /**
      * @var array
      */
     private $currentConfig;
 
     /**
-     * @var string
+     * @var YamlConfigurationReaderImp
      */
-    private $configPath;
+    private static $instance = null;
 
-    public function __construct(string $configurationPath)
+    private function __construct(string $configurationPath)
     {
         $this->configPath = $configurationPath;
         $this->currentConfig = $this->getCurrentConfigurationArray();
+    }
+
+    public static function getInstance(string $configurationPath = null): YamlConfigurationReaderImp
+    {
+        if (self::$instance == null) {
+            self::$instance = new self($configurationPath);
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -45,12 +59,9 @@ class YamlConfigurationReaderImp implements ConfigurationReader
             $environmentConfig = $this->getConfigurationData($this->configPath.'/config_'.$GLOBALS['env'].'.yaml');
         }
         $currentConfiguration = array_merge($commonConfig, $environmentConfig);
-
         $this->replaceValuesWithParameters($currentConfiguration);
-
         return $currentConfiguration;
     }
-
     /**
      * Get data from an specified configuration file.
      *
@@ -65,10 +76,8 @@ class YamlConfigurationReaderImp implements ConfigurationReader
             $configData = array_merge($configData, $this->getImportedData($configData));
             unset($configData['import']);
         }
-
         return $configData;
     }
-
     /**
      * Get imported data for an specified configuration data.
      *
@@ -87,12 +96,10 @@ class YamlConfigurationReaderImp implements ConfigurationReader
                 } else {
                     throw new NotFoundFileException('File '.$file['resource'].' for importing is not existing');
                 }
-
             }
         }
         return $importedData;
     }
-
     /**
      * Replace configuration element value with its corresponding parameter value
      *
@@ -111,14 +118,13 @@ class YamlConfigurationReaderImp implements ConfigurationReader
                 $parameter = substr($data, 1, strlen($data)-2);
                 if (!array_key_exists('parameters', $configData)
                     || !array_key_exists($parameter, $configData['parameters'])) {
-                    throw new NotFoundParameterException("Not Found parameter '$parameter'.");
+                    throw new Exception\NotFoundParameterException("Not Found parameter '$parameter'.");
                 } else {
                     $replacingData[$element] = $configData['parameters'][$parameter];
                 }
             }
         }
     }
-
     /**
      * Getting value of an specified configuration element.
      *
@@ -129,7 +135,11 @@ class YamlConfigurationReaderImp implements ConfigurationReader
         if (!array_key_exists($name, $this->currentConfig)) {
             throw new InvalidElementException("Invalid $name Element in configuration");
         }
-
         return $this->currentConfig[$name];
+    }
+
+    public static function reset(): void
+    {
+        self::$instance = null;
     }
 }
