@@ -140,4 +140,4 @@ For testing code run local (vendor) phpunit
 
 ## Contribute
 
-Jesús Hernando Sancha <jhernando@laliga.es>
+Jesús Hernando Sancha <jesushs80@gmail.com>

@@ -9,7 +9,7 @@ namespace Phaba\Configuration\Exception;
  *
  * @package Phaba\Configuration\Exception
  */
-class NotExistingFileException extends \Exception
+class NotFoundFileException extends \Exception
 {
 
 }
