@@ -24,8 +24,10 @@ For using phaba-configuration is necessary only a config.yaml file with needed c
 
 Getting configuration data is possible thank to *YamlConfigurationImp* class, as shown below:
 
-`$config = new YamlConfigurationImp('path/to/config/files/folder');`
+`$config = YamlConfigurationImp::getInstance('path/to/config/files/folder');`
 `$config->getElement('configuration_field')`
+
+> Phaba-configuration uses sigleton pattern, so application will get the same class instance during one process.   
 
 ### Nested configuration field
 
@@ -36,9 +38,9 @@ In case below,
     common:
         user: Guybrush Threepwood
 
-getElement function returns team (array) like value, therefore for getting team value we have to code the next
+getElement function returns 'common' (array) like value, therefore for getting 'user' value we have to code the next
 
-`$config = new YamlConfigurationImp('path/to/config/files/folder');`
+`$config = YamlConfigurationImp::getInstance('path/to/config/files/folder');`
 `$config->getElement('common')['user']`
 
 ### Use separate configuration files for various environment
@@ -130,6 +132,15 @@ For example, in case below
         user4: Leonardo
         
 common field will contain an array with 'Raphael' and 'Leonardo' keys as value. 
+
+
+### Reset configuration instance
+
+For reseting configuration instance you can use reset function, as follow:
+
+    YamlConfigurationReaderImp::reset();
+    
+> Reseting configuration instance is useful within testing environment. Reseting configuration instance is a good practice for isolating test where configuration class is instantiated 
 
 ## Build and Test
 
